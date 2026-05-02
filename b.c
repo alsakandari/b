@@ -89,6 +89,7 @@ typedef enum {
     TOK_IDENTIFIER,
     TOK_PLUS,
     TOK_MINUS,
+    TOK_MOD,
 } TokenTag;
 
 typedef struct {
@@ -121,6 +122,11 @@ Token lexer_next(Lexer *l) {
 
     case '-':
         token.tag = TOK_MINUS;
+        token.range.end = ++l->index;
+        break;
+
+    case '%':
+        token.tag = TOK_MOD;
         token.range.end = ++l->index;
         break;
 
@@ -180,6 +186,10 @@ int main(int argc, const char **argv) {
 
         case TOK_MINUS:
             printf("-\n");
+            break;
+
+        case TOK_MOD:
+            printf("%%\n");
             break;
 
         case TOK_IDENTIFIER:
